@@ -1,0 +1,70 @@
+---
+title: "Testat_Georgii"
+author: "Julia Georgii"
+date: "5/19/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Netzwerk erstellen
+```{r Gesamnetzwerk erstellen, echo=FALSE}
+## Umgebung vorbereiten durch laden der notwendigen Pakete
+library(igraph)
+
+# Einlesen der Edge- und Nodelists durch die Referenz zu GitHub
+el <- read.csv("https://raw.githubusercontent.com/jg164/Testat/main/Edgelist.csv", header=T, as.is=T, sep = ",")
+nl <- read.csv("https://raw.githubusercontent.com/jg164/Testat/main/Nodelist%20-%20Nodelist.csv", header=T, as.is=T, sep = ",")
+
+# Matrix aus der Edgelist erstellen
+elmatrix <-as.matrix(el)
+
+# Zusammenführen von Edgematrix und Nodelist zu einem igraph-Objekt s
+s <- graph_from_data_frame(d=elmatrix, directed=F)
+s
+```
+
+##Netzwerk analysieren
+```{r Beschreibung des Netzwerks}
+# Parameter zu Beschreibung des Netzwerks
+
+## ist das Netzwerk bereits vereinfacht?
+is.simple(s)
+
+## besteht das Netzwerk aus Komponenten?
+## wenn ja, wie vielen?
+is.connected(s)
+components(s)
+
+## Dichte des Netzwerks
+edge_density(s, loops=FALSE)
+
+## Umfang des Netzwerks
+diameter(s)
+
+## Pfaddistanzen (Distance)
+farthest_vertices(s)
+```
+
+## Netzwerk Visualisierung 
+```{r Einfache Visualisierung des erstellten Objekt, fig.height=4, fig.width=6}
+plot(s,
+vertex.size=10,
+edge.arrow.size=.2,
+edge.curved=.2,
+edge.color="black",
+vertex.color="orange",
+main ="Transferdarstellung des VFB Stuttgart"
+)
+```
+
+
+
+
+
+
+
+
+
